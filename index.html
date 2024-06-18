@@ -9,7 +9,33 @@
   <body>
     <div></div>
     <script>
-      
+      // Task #1
+      const Person = {
+        name: 'Alice',
+        age: 30,
+        greet: function() {
+          console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+        }
+      }
+
+      Person.greet();
+
+      //experiments:
+      const human = {
+        name: 'Bob',
+        age: 25
+      }
+
+      //using .call() 
+      Person.greet.call(human)
+
+      //using .apply()
+      Person.greet.apply(human)
+
+      //using .bind()
+      const boundGreet = Person.greet.bind(human)
+      boundGreet();
+
     </script>
   </body>
 </html>
