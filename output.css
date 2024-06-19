@@ -598,6 +598,10 @@ video {
   width: 8rem;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -608,6 +612,18 @@ video {
 
 .gap-\[5rem\] {
   gap: 5rem;
+}
+
+.gap-\[10rem\] {
+  gap: 10rem;
+}
+
+.gap-\[rem\] {
+  gap: rem;
+}
+
+.gap-\[3rem\] {
+  gap: 3rem;
 }
 
 .rounded-\[\] {

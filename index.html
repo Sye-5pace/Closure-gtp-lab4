@@ -13,9 +13,13 @@
   <body class="p-0 m-0 w-full min-h-screen flex justify-center align-center">
     <div class="p-6 flex align-center justify-center border-[#333] border-2 shadow-md w-full gap-[5rem]">
       <!-- Task 2: Button Element for Event Handlers -->
-      <button id="thisButton"  class="bg-[#568a04] text-[#fefefe] rounded-[1rem] p-4 w-[8rem] h-[5rem]">
+      <div class="flex flex-col">
+        <button id="thisButton"  class="bg-[#568a04] text-[#fefefe] rounded-[1rem] p-4 w-[8rem] h-[5rem]">
           thisText
-      </button> 
+        </button>
+        <p id="thisResult"></p> 
+        <p id="thisResultArrow"></p> 
+      </div>
 
       <div>
         <input type="number" id="timerInput" placeholder="Enter seconds" min="1" class="p-2 focus:outline-none border-[#568a04] border-2" />
@@ -58,6 +62,7 @@
       // # Task 2 Event handlers and this
       // Function to handle button click using regular function
       function handleClick() {
+        document.getElementById('thisResult').textContent = `Regular function: ${this}`;
         console.log('Regular Function:', this.id, this.textContent);
       }
 
@@ -67,6 +72,7 @@
 
       // Function to handle button click using arrow function
       const handleClickArrow = () => {
+          document.getElementById('thisResultArrow').textContent = `Arrow function: ${this}`;
           console.log('Arrow Function:', this); // Arrow functions do not bind 'this'
       };
 
