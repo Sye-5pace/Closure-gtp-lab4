@@ -45,7 +45,6 @@
         padding: 10px;
         border: 2px solid #4CAF50;
         border-radius: 5px;
-        width: fit-content;
       }
   </style>
   </head>
@@ -56,6 +55,11 @@
       <button id="eventHandler">
           EventHandler
       </button> 
+
+      <div>
+        <input type="number" id="timerInput" placeholder="Enter seconds" min="1" />
+        <button id="startTimerButton">Start Timer</button>
+      </div>
 
       <!-- Task 4: Element to display the timer -->
       <div id="timerDisplay"></div>
@@ -108,7 +112,7 @@
       document.getElementById('eventHandler').addEventListener('click', handleClickArrow);
 
        // # Task 3 Private data with Closures and this
-       const createCounter = ()=> {
+      const createCounter = ()=> {
         let count = 0;
 
         return {
@@ -129,34 +133,46 @@
 
 
       // # Task 4:Reusable component with Closure and this
-      const createTimer = (duration, elementId) => {
-        let remainingTime = duration;
-        const element = document.getElementById(elementId);
+      const  createTimer = (duration, elementId) => {
+            let remainingTime = duration;
+            const element = document.getElementById(elementId);
 
-        function updateTimer() {
-            if (remainingTime > 0) {
-                remainingTime--;
-                element.textContent = `Time left: ${remainingTime} seconds`;
-            } else {
-                clearInterval(timerInterval);
-                console.log('Timer finished');
+            function updateTimer() {
+                if (remainingTime > 0) {
+                    remainingTime--;
+                    element.textContent = `Time left: ${remainingTime} seconds`;
+                } else {
+                    clearInterval(timerInterval);
+                    element.textContent = 'Timer finished';
+                    console.log('Timer finished');
+                }
             }
+
+            const timerInterval = setInterval(updateTimer, 1000);
         }
 
-        const timerInterval = setInterval(updateTimer, 1000);
-      }
+        // Event listener for the start timer button
+      document.getElementById('startTimerButton').addEventListener('click', () => {
+            const duration = parseInt(document.getElementById('timerInput').value, 10);
+            
+            if (isNaN(duration) || duration <= 0) {
+                alert('Please enter a valid positive number for the timer duration.');
+                return;
+            }
 
-        // Start a timer with a duration of 10 seconds
-        createTimer(10, 'timerDisplay');
+            createTimer(duration, 'timerDisplay');
+        });
 
-        //         Summary and Understanding
-        // Closures allow us to create private variables and methods, encapsulating state within a function. This is beneficial for data privacy and avoiding global state pollution.
+        // Summary and Understanding
+        // Closures allow us to create private variables and methods, encapsulating state within a function
+        //  This is beneficial for data privacy and avoiding global state pollution.
         // The this keyword is context-dependent and changes based on how a function is called:
         // Direct method calls (obj.method()) use the object as this.
         // call() and apply() set this explicitly.
         // bind() creates a new function with a fixed this.
         // Arrow functions do not have their own this and inherit it from the surrounding scope.
-        // Using closures and this together can help create reusable and maintainable components, like timers or counters, encapsulating their state and behavior effectively.
+        // Using closures and this together can help create reusable and maintainable components,
+        //  like timers or counters, encapsulating their state and behavior effectively.
      
     </script>
   </body>
