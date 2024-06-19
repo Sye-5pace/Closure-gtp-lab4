@@ -4,12 +4,65 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./style.css">
     <title>Closure</title>
+    <style>
+      *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      body{
+        padding: 5rem ;
+        width: 100%;
+        height: 100%;
+        display: flex;
+      }
+
+      
+      #eventHandler {
+        width: 15rem;
+        padding: 10px 20px;
+        margin : auto;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #eventHandler:hover {
+        background-color: #45a049;
+      }
+
+      #timerDisplay {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+        width: fit-content;
+      }
+  </style>
   </head>
   <body>
-    <div></div>
+    <div>
+
+      <!-- Task 2: Button Element for Event Handlers -->
+      <button id="eventHandler">
+          EventHandler
+      </button> 
+
+      <!-- Task 4: Element to display the timer -->
+      <div id="timerDisplay"></div>
+
+    </div>
     <script>
-      // Task #1
+      // Task #1 Object Method and this
       const Person = {
         name: 'Alice',
         age: 30,
@@ -36,6 +89,75 @@
       const boundGreet = Person.greet.bind(human)
       boundGreet();
 
+
+      // # Task 2 Event handlers and this
+      // Function to handle button click using regular function
+      function handleClick() {
+        console.log('Regular Function:', this.id, this.textContent);
+      }
+
+      // Attaching event listener using regular function
+      document.getElementById('eventHandler').addEventListener('click', handleClick);
+
+      // Function to handle button click using arrow function
+      const handleClickArrow = () => {
+          console.log('Arrow Function:', this); // Arrow functions do not bind 'this'
+      };
+
+      // Attaching event listener using arrow function
+      document.getElementById('eventHandler').addEventListener('click', handleClickArrow);
+
+       // # Task 3 Private data with Closures and this
+       const createCounter = ()=> {
+        let count = 0;
+
+        return {
+          increment: function() {
+            count++;
+            console.log(this.count); // undefined, `this` doesn't refer to the closure variable
+            console.log(count); // Correct way to access the closure variable
+          },
+          getCount: function() {
+            return count;
+          }
+       };
+      } 
+
+      const counter = createCounter();
+      counter.increment(); // 1
+      console.log(counter.getCount()); // 1
+
+
+      // # Task 4:Reusable component with Closure and this
+      const createTimer = (duration, elementId) => {
+        let remainingTime = duration;
+        const element = document.getElementById(elementId);
+
+        function updateTimer() {
+            if (remainingTime > 0) {
+                remainingTime--;
+                element.textContent = `Time left: ${remainingTime} seconds`;
+            } else {
+                clearInterval(timerInterval);
+                console.log('Timer finished');
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+      }
+
+        // Start a timer with a duration of 10 seconds
+        createTimer(10, 'timerDisplay');
+
+        //         Summary and Understanding
+        // Closures allow us to create private variables and methods, encapsulating state within a function. This is beneficial for data privacy and avoiding global state pollution.
+        // The this keyword is context-dependent and changes based on how a function is called:
+        // Direct method calls (obj.method()) use the object as this.
+        // call() and apply() set this explicitly.
+        // bind() creates a new function with a fixed this.
+        // Arrow functions do not have their own this and inherit it from the surrounding scope.
+        // Using closures and this together can help create reusable and maintainable components, like timers or counters, encapsulating their state and behavior effectively.
+     
     </script>
   </body>
 </html>
